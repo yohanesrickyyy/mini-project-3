@@ -17,6 +17,17 @@ func NewRegistration(db *gorm.DB) *Registration {
 	return &Registration{db: db}
 }
 
+// RegisterHandler handles user registration.
+// @Summary Register user
+// @Description Register a new user
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param user body User true "User object"
+// @Success 201 {object} User "Successfully registered user"
+// @Failure 400 {object} HTTPError "Bad request"
+// @Failure 500 {object} HTTPError "Internal server error"
+// @Router /register [post]
 func (as *Registration) RegisterHandler(c echo.Context) error {
 	getInputUser := new(entity.User)
 

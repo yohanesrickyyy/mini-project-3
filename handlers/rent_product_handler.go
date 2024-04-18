@@ -18,6 +18,20 @@ func RentProductService(db *gorm.DB) *RentProduct {
 	return &RentProduct{db: db}
 }
 
+// RentEquipmentHandler godoc
+// @Summary Rent equipment
+// @Description Rent equipment by providing equipment ID, rental date, and return date
+// @Tags Rent
+// @Accept json
+// @Produce json
+// @Param equipment_id body int true "Equipment ID"
+// @Param rental_date body string true "Rental date (YYYY-MM-DD)"
+// @Param return_date body string true "Return date (YYYY-MM-DD)"
+// @Success 201 {object} map[string]interface{} "Successfully rented equipment"
+// @Failure 400 {object} ErrorResponse "Bad request"
+// @Failure 404 {object} ErrorResponse "Equipment not found"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /rent [post]
 func (as *RentProduct) RentEquipmentHandler(c echo.Context) error {
 	userID := helpers.GetUserId(c)
 
