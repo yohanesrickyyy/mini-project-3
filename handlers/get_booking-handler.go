@@ -25,7 +25,7 @@ func NewBookingService(db *gorm.DB) *BookingService {
 // @Produce json
 // @Security ApiKeyAuth
 // @Param Authorization header string true "JWT token"
-// @Param booking body entity.Booking{} true "Booking details"
+// @Param booking body entity.Booking true "Booking details"
 // @Success 201 {object} Booking "Successfully booked equipment"
 // @Failure 400 {object} HTTPError "Bad request"
 // @Failure 500 {object} HTTPError "Internal server error"
