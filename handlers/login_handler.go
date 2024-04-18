@@ -57,7 +57,7 @@ func (as *Login) LoginHandler(c echo.Context) error {
 func CreateJWT(user *entity.User) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": user.UserID,
-		"email":   user.EmailUsername,
+		"email":   user.Email,
 		"exp":     time.Now().Add(time.Hour * 1).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

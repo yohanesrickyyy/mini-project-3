@@ -1,8 +1,8 @@
 package entity
 
 type User struct {
-	UserID        int     `json:"userID"`
-	EmailUsername string  `json:"emailUsername"`
+	UserID        int     `json:"userid" gorm:"primaryKey:autoIncrement"`
+	Email         string  `json:"email" gorm:"unique"`
 	Password      string  `json:"password,omitempty"`
-	DepositAmount float64 `json:"depositAmount"`
+	DepositAmount float64 `json:"deposit"`
 }

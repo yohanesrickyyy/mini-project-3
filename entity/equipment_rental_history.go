@@ -4,7 +4,7 @@ import "time"
 
 type EquipmentRentalHistory struct {
 	RentalID    uint      `gorm:"primaryKey"`
-	UserID      string    `json:"userid"`
+	UserID      int    `json:"userid"`
 	EquipmentID uint      `json:"equipmentid"`
 	RentalDate  time.Time `json:"rentaldate"`
 	ReturnDate  time.Time `json:"returndate"`
