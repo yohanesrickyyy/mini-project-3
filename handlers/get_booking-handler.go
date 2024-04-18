@@ -17,27 +17,35 @@ func NewBookingService(db *gorm.DB) *BookingService {
 	return &BookingService{db: db}
 }
 
+// BookEquipment godoc
+// @Summary Book equipment
+// @Description Book equipment by providing booking details
+// @Tags bookings
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param Authorization header string true "JWT token"
+// @Param booking body entity.Booking{} true "Booking details"
+// @Success 201 {object} Booking "Successfully booked equipment"
+// @Failure 400 {object} HTTPError "Bad request"
+// @Failure 500 {object} HTTPError "Internal server error"
+// @Router /bookings [post]
 func (bs *BookingService) BookEquipment(c echo.Context) error {
-	// Check if context is nil
 	if c == nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "context is nil")
 	}
 
-	// Validasi token JWT
 	userID := helpers.GetUserId(c)
 
-	// Check if userID is zero
 	if userID == 0 {
 		return echo.NewHTTPError(http.StatusUnauthorized, "user ID not found in context")
 	}
 
-	// Bind request data to booking struct
 	var booking entity.Booking
 	if err := c.Bind(&booking); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "invalid request payload")
 	}
 
-	// Simpan pemesanan ke basis data
 	booking.UserID = userID
 	if err := bs.db.Create(&booking).Error; err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())

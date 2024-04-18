@@ -1,0 +1,80 @@
+definitions:
+  entity.Booking:
+    properties:
+      booking_date:
+        type: string
+      booking_id:
+        type: integer
+      equipment_id:
+        type: integer
+      return_date:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  entity.User:
+    properties:
+      deposit:
+        type: number
+      email:
+        type: string
+      password:
+        type: string
+      userid:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /bookings:
+    post:
+      consumes:
+      - application/json
+      description: Book equipment by providing booking details
+      parameters:
+      - description: JWT token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Booking details
+        in: body
+        name: booking
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Booking'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Booking'
+      security:
+      - ApiKeyAuth: []
+      summary: Book equipment
+      tags:
+      - bookings
+  /users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a user's details by their ID
+      parameters:
+      - description: User ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.User'
+      summary: Find a user by ID
+      tags:
+      - users
+swagger: "2.0"

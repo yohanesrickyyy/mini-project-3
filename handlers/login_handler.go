@@ -22,6 +22,16 @@ func NewLogin(db *gorm.DB) *Login {
 	return &Login{db: db}
 }
 
+// LoginHandler godoc
+// @Summary Login user
+// @Description Log in with email and password to get authentication token
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param login body LoginRequest true "Login credentials"
+// @Success 200 {object} LoginResponse
+// @Failure 400 {object} HTTPError
+// @Router /login [post]
 func (as *Login) LoginHandler(c echo.Context) error {
 	login := new(dto.Login)
 
@@ -39,13 +49,12 @@ func (as *Login) LoginHandler(c echo.Context) error {
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password)); err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, "password not match")
+		return echo.NewHTTPError(http.StatusUnauthorized, "incorrect password")
 	}
 
 	tokenString, err := CreateJWT(user)
 	if err != nil {
-		custErr := tokenString + err.Error()
-		return echo.NewHTTPError(http.StatusBadRequest, custErr)
+		return echo.NewHTTPError(http.StatusInternalServerError, "failed to create token")
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{

@@ -17,6 +17,20 @@ func NewUserService(db *gorm.DB) *UserService {
 	return &UserService{db: db}
 }
 
+// TopUp godoc
+// @Summary Top up user's deposit amount
+// @Description Top up user's deposit amount by providing the amount to be topped up
+// @Tags User
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param user_id path int true "User ID"
+// @Param amount body float64 true "Amount to be topped up"
+// @Success 200 {object} map[string]interface{} "Top up success response"
+// @Failure 400 {object} ErrorResponse "Bad request"
+// @Failure 404 {object} ErrorResponse "User not found"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /topup [post]
 func (us *UserService) CreateActivityLog(userID int, description string) error {
 	activityLog := entity.UserActivity{
 		UserId:      userID,
